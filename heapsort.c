@@ -30,7 +30,7 @@ void insere(int v[], int dados, int *n){
         return ;
     }
 
-    // primeiro insire o valor na ultima posicao do vetor
+    // primeiro insere o valor na ultima posicao do vetor
     // e move-o para cima
     v[*n] = dados;
     *n = *n + 1;
