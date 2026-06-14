@@ -1,19 +1,19 @@
 #include "arq_interface.h"
 #define MAX_SIZE 14
 
-// retorna o indice do nó pai
+// retorna o indice do noh pai
 int pai(int i){
     return (i - 1) / 2;
 }
 
 // devolve o indice do filho esquerdo
 int filhoEsq(int i){
-    return 2*i;
+    return 2*i + 1;
 }
 
 // devolve o indice do filho direito
 int filhoDir(int i){
-    return 2*i + 1;
+    return 2*i + 2;
 }
 
 // troca os valores para realizar o heap entre pai e filho esq/dir
@@ -61,15 +61,33 @@ void maxHeapify(int v[], int i, int n){
     }
 
     // troca o maior noh com o noh atual
-    // e repite este processo ate que o noh atual seja maior que
-    // o noh direito e o noh esquerdo
+    // e repete este processo ate que o noh atual seja maior
     if(maior != i){
-        int temp = v[i];
-        v[i] = v[maior];
-        v[maior] = temp;
+        troca(&v[i], &v[maior]);
         maxHeapify(v, maior, n);
     }
 }
+
+// constroi o max heap
+void buildMaxHeap(int v[], int n){
+    int i;
+    for(i = n/2 - 1; i >= 0; i--){
+        maxHeapify(v, i, n - 1);
+    }
+}
+
+// ordena usando heap sort
+void heapSort(int v[], int n){
+    buildMaxHeap(v, n);
+
+    int i;
+    for(i = n - 1; i > 0; i--){
+        troca(&v[0], &v[i]);
+
+        maxHeapify(v, 0, i - 1);
+    }
+}
+
 // funcao que imprime o heap
 void imprimeHeap(int v[], int n){
     int i;
@@ -82,6 +100,8 @@ void imprimeHeap(int v[], int n){
 int main(){
     int n = 0;
     int v[MAX_SIZE];
+
+    imprimeHeap(v, n);
 
     insere(v, 225, &n);
     insere(v, 200, &n);
@@ -98,6 +118,11 @@ int main(){
     insere(v, 600, &n);
     insere(v, 295, &n);
 
+    printf("Max heap:\n");
+    imprimeHeap(v, n);
+
+    printf("Heap ordenado:\n");
+    heapSort(v, n);
     imprimeHeap(v, n);
 
     return 0;
